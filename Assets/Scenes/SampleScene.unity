@@ -625,6 +625,90 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1235937372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1235937374}
+  - component: {fileID: 1235937373}
+  m_Layer: 0
+  m_Name: TX Tileset Ground_81
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1235937373
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235937372}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -8691193848492924058, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1235937374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235937372}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12, y: -5.83, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1379343932
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,18 +1136,38 @@ PrefabInstance:
       propertyPath: _jumpForce
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4139802776708740948, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
+      propertyPath: _flySprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4139802776708740948, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
+      propertyPath: _flySprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6ff4110cb18230d4aaa8fa9c568875b8, type: 3}
+    - target: {fileID: 4139802776708740948, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
+      propertyPath: _flySprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 432438784508542419f91c273027fb69, type: 3}
+    - target: {fileID: 4139802776708740948, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
+      propertyPath: _flySprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 1f7876c12d3afef4e898548861148fe0, type: 3}
     - target: {fileID: 4801211332524062925, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
       propertyPath: m_Mass
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4801211332524062925, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
       propertyPath: m_Constraints
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4801211332524062925, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
       propertyPath: m_GravityScale
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6051886202825167360, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6ff4110cb18230d4aaa8fa9c568875b8, type: 3}
     - target: {fileID: 6549051760685584110, guid: d3821a6a2c3f9674681bad800bc855b9, type: 3}
       propertyPath: m_Name
       value: Player

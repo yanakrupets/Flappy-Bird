@@ -7,11 +7,18 @@ using UnityEngine.EventSystems;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _jumpForce = 0;
+    [SerializeField] private Sprite[] _flySprites;
     private Rigidbody2D _rigidbody;
+    private SpriteRenderer _spriteRenderer;
+
+    private int _spriteNumber = 0;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        InvokeRepeating(nameof(Fly), 0.15f, 0.15f);
     }
 
     void Update()
@@ -20,6 +27,15 @@ public class Player : MonoBehaviour
         {
             _rigidbody.velocity = Vector2.up * _jumpForce;
         }
+    }
+
+    private void Fly()
+    {
+        _spriteRenderer.sprite = _flySprites[_spriteNumber];
+
+        _spriteNumber++;
+        if (_spriteNumber >= _flySprites.Length)
+            _spriteNumber = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
