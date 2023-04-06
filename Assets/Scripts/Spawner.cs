@@ -9,19 +9,9 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _maxHeight;
     [SerializeField] private float _time;
 
-    private void OnEnable()
+    public void StartSpawn()
     {
-        transform.position = new Vector3(
-            (Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, 0, 0)) + new Vector3(1, 0, 0)).x, 
-            transform.position.y,
-            transform.position.z);
-
         InvokeRepeating(nameof(Spawn), _time, _time);
-    }
-
-    private void OnDisable()
-    {
-        // CancelInvoke(nameof(Spawn));
     }
 
     private void Spawn()

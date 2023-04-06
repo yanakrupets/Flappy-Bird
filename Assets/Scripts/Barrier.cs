@@ -5,7 +5,6 @@ using UnityEngine;
 public class Barrier : MonoBehaviour
 {
     [SerializeField] private float _speed = 0f;
-
     private float _removalEdge;
 
     void Start()
