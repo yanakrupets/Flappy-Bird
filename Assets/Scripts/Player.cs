@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
@@ -59,6 +60,7 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.tag == "Barrier")
         {
+            // trigger event
             Debug.Log("Barrier");
         }
     }
