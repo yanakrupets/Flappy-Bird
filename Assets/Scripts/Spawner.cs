@@ -10,13 +10,12 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _maxHeight;
     [SerializeField] private float _time;
 
-    [Inject] private EventManager _eventManager;
     [Inject] private DiContainer _diContainer;
 
     private void Awake()
     {
-        _eventManager.AddListener<StopMovementEvent>(StopSpawn);
-        _eventManager.AddListener<ContinueMovementEvent>(Spawn);
+        EventManager.AddListener<StopMovementEvent>(StopSpawn);
+        EventManager.AddListener<ContinueMovementEvent>(Spawn);
     }
 
     public void StartSpawn()

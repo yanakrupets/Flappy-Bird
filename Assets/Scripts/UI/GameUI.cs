@@ -1,33 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Zenject;
+using System;
 
 public class GameUI : MonoBehaviour
 {
-    [Inject] private EventManager _eventManager;
-
-    [SerializeField] private GameObject _pause;
-    [SerializeField] private GameObject _points;
-    [SerializeField] private GameObject _pauseButton;
+    [SerializeField] private GameObject _pausePopup;
+    [SerializeField] private TMP_Text _points;
 
     private void Awake()
     {
-        _eventManager.AddListener<PointEvent>(AddPoint);
+        EventManager.AddListener<PointEvent>(AddPoint);
     }
 
     public void AddPoint(PointEvent evt)
     {
-        Debug.Log("POINTS: " + evt.point);
+        var count = Convert.ToInt32(_points.text);
+        _points.text = (count + evt.point).ToString();
     }
 
     public void OpenPause()
     {
-        _pause.SetActive(true);
+        _pausePopup.SetActive(true);
     }
 
     public void HidePause()
     {
-        _pause.SetActive(false);
+        _pausePopup.SetActive(false);
     }
 }

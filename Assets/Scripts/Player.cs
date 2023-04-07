@@ -1,28 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using Zenject;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
-    [Inject] private EventManager _eventManager;
-
     [SerializeField] private float _jumpForce = 0;
     [SerializeField] private Sprite[] _flySprites;
+
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
 
     private int _spriteNumber = 0;
-    private int _currentPoints;
 
-    public int CurrentPoints => _currentPoints;
+    public int CurrentPoints { get; set; }
 
     private void Awake()
     {
-        _eventManager.AddListener<StopMovementEvent>(StopFly);
-        _eventManager.AddListener<ContinueMovementEvent>(StartFly);
+        EventManager.AddListener<StopMovementEvent>(StopFly);
+        EventManager.AddListener<ContinueMovementEvent>(StartFly);
     }
 
     void Start()
@@ -30,7 +29,7 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
-        _currentPoints = 0;
+        CurrentPoints = 0;
 
         InvokeRepeating(nameof(FlyAnimation), 0.15f, 0.15f);
     }
@@ -65,20 +64,5 @@ public class Player : MonoBehaviour
         _spriteNumber++;
         if (_spriteNumber >= _flySprites.Length)
             _spriteNumber = 0;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Passage")
-        {
-            _currentPoints++;
-            Debug.Log("Passage");
-        }
-
-        if (other.gameObject.tag == "Barrier")
-        {
-            // trigger event
-            Debug.Log("Barrier");
-        }
     }
 }

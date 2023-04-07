@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameOverUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private TMP_Text _score;
+    [SerializeField] private TMP_Text _bestScore;
 
-    // Update is called once per frame
-    void Update()
+    public void ShowResult(int score)
     {
-        
+        _score.text = "Score\n" + score;
+        _bestScore.text = "Best\n" + PlayerPrefs.GetInt(PlayerPrefsConsts.BEST_SCORE);
     }
 }

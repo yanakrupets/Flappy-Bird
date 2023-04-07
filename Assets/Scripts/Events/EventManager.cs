@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EventManager : MonoBehaviour
+public static class EventManager
 {
-    readonly Dictionary<Type, Action<IEvent>> s_Events = new Dictionary<Type, Action<IEvent>>();
+    static readonly Dictionary<Type, Action<IEvent>> s_Events = new Dictionary<Type, Action<IEvent>>();
 
-    readonly Dictionary<Delegate, Action<IEvent>> s_EventLookups = new Dictionary<Delegate, Action<IEvent>>();
+    static readonly Dictionary<Delegate, Action<IEvent>> s_EventLookups =
+        new Dictionary<Delegate, Action<IEvent>>();
 
-    public void AddListener<T>(Action<T> evt) where T : IEvent
+    public static void AddListener<T>(Action<T> evt) where T : IEvent
     {
         if (!s_EventLookups.ContainsKey(evt))
         {
@@ -24,7 +25,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void RemoveListener<T>(Action<T> evt) where T : IEvent
+    public static void RemoveListener<T>(Action<T> evt) where T : IEvent
     {
         if (s_EventLookups.TryGetValue(evt, out var action))
         {
@@ -41,39 +42,9 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void Broadcast(IEvent evt)
+    public static void Broadcast(IEvent evt)
     {
         if (s_Events.TryGetValue(evt.GetType(), out var action))
             action.Invoke(evt);
     }
-
-    //private Dictionary<Type, UnityEvent<IEvent>> eventDictionary = new Dictionary<Type, UnityEvent<IEvent>>();
-
-    //public void AddListener<T>(UnityAction<T> evt) where T : IEvent
-    //{
-    //    if (eventDictionary.TryGetValue(typeof(T), out UnityEvent<IEvent> thisEvent))
-    //    {
-    //        thisEvent.AddListener(evt as UnityAction<IEvent>);
-    //    }
-    //    else
-    //    {
-    //        thisEvent = new UnityEvent<IEvent>();
-    //        thisEvent.AddListener(evt as UnityAction<IEvent>);
-    //        eventDictionary.Add(typeof(T), thisEvent);
-    //    }
-    //}
-
-    //public void RemoveListener<T>(Action<T> evt) where T : IEvent
-    //{
-    //    if (eventDictionary.TryGetValue(typeof(T), out UnityEvent<IEvent> thisEvent))
-    //    {
-    //        thisEvent.RemoveListener(evt as UnityAction<IEvent>);
-    //    }
-    //}
-
-    //public void Broadcast(IEvent evt)
-    //{
-    //    if (eventDictionary.TryGetValue(evt.GetType(), out var action))
-    //        action.Invoke(evt);
-    //}
 }

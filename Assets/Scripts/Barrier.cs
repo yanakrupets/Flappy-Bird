@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 public class Barrier : MonoBehaviour
 {
-    [Inject] private EventManager _eventManager;
-
     [SerializeField] private float _speed = 0f;
     private float _removalEdge;
 
@@ -14,8 +13,8 @@ public class Barrier : MonoBehaviour
 
     private void Awake()
     {
-        _eventManager.AddListener<StopMovementEvent>(StopMovement);
-        _eventManager.AddListener<ContinueMovementEvent>(ContinueMovement);
+        EventManager.AddListener<StopMovementEvent>(StopMovement);
+        EventManager.AddListener<ContinueMovementEvent>(ContinueMovement);
     }
 
     void Start()

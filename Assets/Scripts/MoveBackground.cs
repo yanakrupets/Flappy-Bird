@@ -5,8 +5,6 @@ using Zenject;
 
 public class MoveBackground : MonoBehaviour 
 {
-	[Inject] private EventManager _eventManager;
-
 	[SerializeField] private float _speed;
 	[SerializeField] private float _destinationPosition;
 	[SerializeField] private float _startPosition;
@@ -16,8 +14,8 @@ public class MoveBackground : MonoBehaviour
 
 	private void Awake()
 	{
-		_eventManager.AddListener<StopMovementEvent>(StopMovement);
-		_eventManager.AddListener<ContinueMovementEvent>(ContinueMovement);
+		EventManager.AddListener<StopMovementEvent>(StopMovement);
+		EventManager.AddListener<ContinueMovementEvent>(ContinueMovement);
 	}
 
     private void Start()

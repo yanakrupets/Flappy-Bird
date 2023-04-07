@@ -9,21 +9,19 @@ public class GameManager : MonoBehaviour
     [Inject] private Player _player;
     [Inject] private MenuUI _menuUI;
     [Inject] private GameUI _gameUI;
+    [Inject] private GameOverUI _gameOverUI;
     [Inject] private Spawner _spawner;
-    [Inject] private EventManager _eventManager;
-
-    // current score ?
 
     private void Awake()
     {
-        
+        EventManager.AddListener<GameOverEvent>(GameOver);
     }
 
     public void StartGame()
     {
         _spawner.StartSpawn();
         _player.Fly();
-        // in method
+
         _menuUI.gameObject.SetActive(false);
         _gameUI.gameObject.SetActive(true);
     }
@@ -31,13 +29,22 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         var stopMovementEvent = Events.StopMovementEvent;
-        _eventManager.Broadcast(stopMovementEvent);
+        EventManager.Broadcast(stopMovementEvent);
     }
 
     public void ContinueGame()
     {
         var continueMovementEvent = Events.ContinueMovementEvent;
-        _eventManager.Broadcast(continueMovementEvent);
+        EventManager.Broadcast(continueMovementEvent);
+    }
+
+    public void GameOver(GameOverEvent evt)
+    {
+        PauseGame();
+
+        _gameUI.gameObject.SetActive(false);
+        _gameOverUI.gameObject.SetActive(true);
+        _gameOverUI.ShowResult(evt.currentScore);
     }
 
     public void RestartGame()
