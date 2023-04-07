@@ -7,6 +7,8 @@ using Zenject;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
+    [Inject] private EventManager _eventManager;
+
     [SerializeField] private float _jumpForce = 0;
     [SerializeField] private Sprite[] _flySprites;
     private Rigidbody2D _rigidbody;
@@ -17,6 +19,12 @@ public class Player : MonoBehaviour
 
     public int CurrentPoints => _currentPoints;
 
+    private void Awake()
+    {
+        _eventManager.AddListener<StopMovementEvent>(StopFly);
+        _eventManager.AddListener<ContinueMovementEvent>(StartFly);
+    }
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -24,7 +32,7 @@ public class Player : MonoBehaviour
 
         _currentPoints = 0;
 
-        InvokeRepeating(nameof(Fly), 0.15f, 0.15f);
+        InvokeRepeating(nameof(FlyAnimation), 0.15f, 0.15f);
     }
 
     void Update()
@@ -35,12 +43,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void StartFly()
+    public void Fly()
     {
         _rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
     }
 
-    private void Fly()
+    public void StartFly(ContinueMovementEvent evt)
+    {
+        Fly();
+    }
+
+    public void StopFly(StopMovementEvent evt)
+    {
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+    }
+
+    private void FlyAnimation()
     {
         _spriteRenderer.sprite = _flySprites[_spriteNumber];
 
@@ -55,7 +73,6 @@ public class Player : MonoBehaviour
         {
             _currentPoints++;
             Debug.Log("Passage");
-            Debug.Log("Current points: " + _currentPoints);
         }
 
         if (other.gameObject.tag == "Barrier")

@@ -10,13 +10,19 @@ public class GameManager : MonoBehaviour
     [Inject] private MenuUI _menuUI;
     [Inject] private GameUI _gameUI;
     [Inject] private Spawner _spawner;
+    [Inject] private EventManager _eventManager;
 
     // current score ?
+
+    private void Awake()
+    {
+        
+    }
 
     public void StartGame()
     {
         _spawner.StartSpawn();
-        _player.StartFly();
+        _player.Fly();
         // in method
         _menuUI.gameObject.SetActive(false);
         _gameUI.gameObject.SetActive(true);
@@ -24,9 +30,14 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        // stop barriers
-        // stop backgrounds
-        // fix bird position
+        var stopMovementEvent = Events.StopMovementEvent;
+        _eventManager.Broadcast(stopMovementEvent);
+    }
+
+    public void ContinueGame()
+    {
+        var continueMovementEvent = Events.ContinueMovementEvent;
+        _eventManager.Broadcast(continueMovementEvent);
     }
 
     public void RestartGame()
