@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +12,13 @@ public class Barrier : MonoBehaviour
 
     private bool _isMoving;
 
+    public static Action<GameObject> OnRemove;
+
     private void Awake()
     {
         EventManager.AddListener<StopMovementEvent>(StopMovement);
         EventManager.AddListener<ContinueMovementEvent>(ContinueMovement);
+        EventManager.AddListener<ReturnToPoolEvent>(ReturnToPool);
     }
 
     void Start()
@@ -30,9 +34,11 @@ public class Barrier : MonoBehaviour
 
         if (transform.position.x < _removalEdge)
         {
-            Destroy(gameObject);
+            OnRemove(gameObject);
         }
     }
+
+    public void ReturnToPool(ReturnToPoolEvent evt) => OnRemove(gameObject);
 
     public void StopMovement(StopMovementEvent evt) => _isMoving = false;
 

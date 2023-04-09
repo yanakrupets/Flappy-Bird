@@ -4,14 +4,19 @@ using Zenject;
 public class SpawnerInstaller : MonoInstaller
 {
     [SerializeField] private Spawner _spawner;
+    [SerializeField] private BonusSpawner _bonusSpawner;
 
     public override void InstallBindings()
     {
-        _spawner.transform.position = new Vector3(
+        var position = new Vector3(
                 (Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, 0, 0)) + new Vector3(1, 0, 0)).x,
                 transform.position.y,
                 transform.position.z);
 
+        _spawner.transform.position = position;
+        _bonusSpawner.transform.position = position;
+
         Container.Bind<Spawner>().FromInstance(_spawner).AsSingle();
+        Container.Bind<BonusSpawner>().FromInstance(_bonusSpawner).AsSingle();
     }
 }

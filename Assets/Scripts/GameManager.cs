@@ -11,16 +11,16 @@ public class GameManager : MonoBehaviour
     [Inject] private GameUI _gameUI;
     [Inject] private GameOverUI _gameOverUI;
     [Inject] private Spawner _spawner;
+    [Inject] private BonusSpawner _bonusSpawner;
 
-    private void Awake()
+    private void Start()
     {
-        EventManager.AddListener<GameOverEvent>(GameOver);
+        EventManager.Broadcast(Events.StartMovingBackgroundEvent);
     }
 
     public void StartGame()
     {
-        _spawner.StartSpawn();
-        _player.Fly();
+        EventManager.Broadcast(Events.ContinueMovementEvent);
 
         _menuUI.gameObject.SetActive(false);
         _gameUI.gameObject.SetActive(true);
@@ -28,27 +28,37 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        var stopMovementEvent = Events.StopMovementEvent;
-        EventManager.Broadcast(stopMovementEvent);
+        EventManager.Broadcast(Events.StopMovingBackgroundEvent);
+        EventManager.Broadcast(Events.StopMovementEvent);
     }
 
     public void ContinueGame()
     {
-        var continueMovementEvent = Events.ContinueMovementEvent;
-        EventManager.Broadcast(continueMovementEvent);
+        EventManager.Broadcast(Events.StartMovingBackgroundEvent);
+        EventManager.Broadcast(Events.ContinueMovementEvent);
     }
 
-    public void GameOver(GameOverEvent evt)
+    public void GameOver(int currentScore)
     {
         PauseGame();
 
         _gameUI.gameObject.SetActive(false);
         _gameOverUI.gameObject.SetActive(true);
-        _gameOverUI.ShowResult(evt.currentScore);
+        _gameOverUI.ShowResult(currentScore);
     }
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        _gameUI.ResetUI();
+        _gameUI.gameObject.SetActive(false);
+        _gameOverUI.gameObject.SetActive(false);
+        _menuUI.gameObject.SetActive(true);
+
+        _player.ResetPlayer();
+        _spawner.StopSpawn(Events.StopMovementEvent);
+        _bonusSpawner.StopSpawn(Events.StopMovementEvent);
+
+        EventManager.Broadcast(Events.StartMovingBackgroundEvent);
+        EventManager.Broadcast(Events.ReturnToPoolEvent);
     }
 }

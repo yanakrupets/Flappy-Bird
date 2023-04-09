@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     private int _spriteNumber = 0;
+    private Vector3 _startPosition;
 
     public int CurrentPoints { get; set; }
 
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         CurrentPoints = 0;
+        _startPosition = transform.position;
 
         InvokeRepeating(nameof(FlyAnimation), 0.15f, 0.15f);
     }
@@ -40,6 +42,14 @@ public class Player : MonoBehaviour
         {
             _rigidbody.velocity = Vector2.up * _jumpForce;
         }
+    }
+
+    public void ResetPlayer()
+    {
+        CurrentPoints = 0;
+
+        transform.position = _startPosition;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
     }
 
     public void Fly()
