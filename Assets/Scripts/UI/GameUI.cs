@@ -19,6 +19,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TMP_Text _bonusName;
     [SerializeField] private Image _bonusImage;
 
+    [Inject] private SoundManager _soundMananger;
+
     private void Awake()
     {
         EventManager.AddListener<PointEvent>(AddPoint);
@@ -47,17 +49,20 @@ public class GameUI : MonoBehaviour
 
     public void AddPoint(PointEvent evt)
     {
+        _soundMananger.PlayPointSound();
         var count = Convert.ToInt32(_points.text);
         _points.text = (count + evt.point).ToString();
     }
 
     public void OpenPause()
     {
+        _soundMananger.PlayButtonSound();
         _pausePopup.SetActive(true);
     }
 
     public void HidePause()
     {
+        _soundMananger.PlayButtonSound();
         _pausePopup.SetActive(false);
     }
 }

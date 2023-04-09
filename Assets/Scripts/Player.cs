@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _jumpForce = 0;
     [SerializeField] private Sprite[] _flySprites;
 
+    [Inject] private SoundManager _soundMananger;
+
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
 
@@ -18,6 +20,7 @@ public class Player : MonoBehaviour
     private Vector3 _startPosition;
 
     public int CurrentPoints { get; set; }
+    public bool IsFlying { get; set; }
 
     private void Awake()
     {
@@ -40,6 +43,8 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (IsFlying)
+                _soundMananger.PlayWingSound();
             _rigidbody.velocity = Vector2.up * _jumpForce;
         }
     }

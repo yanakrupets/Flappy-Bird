@@ -24,18 +24,24 @@ public class GameManager : MonoBehaviour
 
         _menuUI.gameObject.SetActive(false);
         _gameUI.gameObject.SetActive(true);
+
+        _player.IsFlying = true;
     }
 
     public void PauseGame()
     {
         EventManager.Broadcast(Events.StopMovingBackgroundEvent);
         EventManager.Broadcast(Events.StopMovementEvent);
+
+        _player.IsFlying = false;
     }
 
     public void ContinueGame()
     {
         EventManager.Broadcast(Events.StartMovingBackgroundEvent);
         EventManager.Broadcast(Events.ContinueMovementEvent);
+
+        _player.IsFlying = true;
     }
 
     public void GameOver(int currentScore)
@@ -45,6 +51,8 @@ public class GameManager : MonoBehaviour
         _gameUI.gameObject.SetActive(false);
         _gameOverUI.gameObject.SetActive(true);
         _gameOverUI.ShowResult(currentScore);
+
+        _player.IsFlying = false;
     }
 
     public void RestartGame()
