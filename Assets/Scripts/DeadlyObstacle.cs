@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class Pipe : MonoBehaviour
+public class DeadlyObstacle : MonoBehaviour
 {
     [Inject] private GameManager _gameManager;
     [Inject] private SoundManager _soundManager;

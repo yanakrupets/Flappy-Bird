@@ -16,8 +16,8 @@ public class Bonus : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.AddListener<StopMovementEvent>(StopMovement);
-        EventManager.AddListener<ContinueMovementEvent>(ContinueMovement);
+        EventManager.AddListener<StopSpawnEvent>(StopMovement);
+        EventManager.AddListener<StartSpawnEvent>(ContinueMovement);
         EventManager.AddListener<ReturnToPoolEvent>(ReturnToPool);
     }
 
@@ -46,6 +46,12 @@ public class Bonus : MonoBehaviour
         spriteRenderer.size = Vector2.one;
     }
 
+    private void ReturnToPool(ReturnToPoolEvent evt) => OnRemove(gameObject);
+
+    private void StopMovement(StopSpawnEvent evt) => _isMoving = false;
+
+    private void ContinueMovement(StartSpawnEvent evt) => _isMoving = true;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<Player>(out Player player))
@@ -66,15 +72,9 @@ public class Bonus : MonoBehaviour
 
             OnRemove(gameObject);
         }
-        else if (other.TryGetComponent<Pipe>(out Pipe pipe))
+        else if (other.TryGetComponent<DeadlyObstacle>(out DeadlyObstacle pipe))
         {
             OnRemove(gameObject);
         }
     }
-
-    public void ReturnToPool(ReturnToPoolEvent evt) => OnRemove(gameObject);
-
-    public void StopMovement(StopMovementEvent evt) => _isMoving = false;
-
-    public void ContinueMovement(ContinueMovementEvent evt) => _isMoving = true;
 }

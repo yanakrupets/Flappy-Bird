@@ -9,8 +9,8 @@ public interface IEvent
 public static class Events
 {
     public static PointEvent PointEvent = new PointEvent();
-    public static StopMovementEvent StopMovementEvent = new StopMovementEvent();
-    public static ContinueMovementEvent ContinueMovementEvent = new ContinueMovementEvent();
+    public static StartSpawnEvent StartSpawnEvent = new StartSpawnEvent();
+    public static StopSpawnEvent StopSpawnEvent = new StopSpawnEvent();
     public static GameOverEvent GameOverEvent = new GameOverEvent();
     public static BonusEvent BonusEvent = new BonusEvent();
     public static ReturnToPoolEvent ReturnToPoolEvent = new ReturnToPoolEvent();
@@ -23,9 +23,9 @@ public class PointEvent : IEvent
     public int point;
 }
 
-public class StopMovementEvent : IEvent { }
+public class StartSpawnEvent : IEvent { }
 
-public class ContinueMovementEvent : IEvent { }
+public class StopSpawnEvent : IEvent { }
 
 public class GameOverEvent : IEvent 
 {

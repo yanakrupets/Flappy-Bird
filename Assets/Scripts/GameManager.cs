@@ -10,38 +10,44 @@ public class GameManager : MonoBehaviour
     [Inject] private MenuUI _menuUI;
     [Inject] private GameUI _gameUI;
     [Inject] private GameOverUI _gameOverUI;
-    [Inject] private Spawner _spawner;
+    [Inject] private BarrierSpawner _barrierSpawner;
     [Inject] private BonusSpawner _bonusSpawner;
+
+    private List<Spawner> spawners;
 
     private void Start()
     {
         EventManager.Broadcast(Events.StartMovingBackgroundEvent);
+
+        spawners = new List<Spawner>();
+        spawners.Add(_barrierSpawner);
+        spawners.Add(_bonusSpawner);
     }
 
     public void StartGame()
     {
-        EventManager.Broadcast(Events.ContinueMovementEvent);
+        EventManager.Broadcast(Events.StartSpawnEvent);
+
+        _player.StartFly();
 
         _menuUI.gameObject.SetActive(false);
         _gameUI.gameObject.SetActive(true);
-
-        _player.IsFlying = true;
     }
 
     public void PauseGame()
     {
         EventManager.Broadcast(Events.StopMovingBackgroundEvent);
-        EventManager.Broadcast(Events.StopMovementEvent);
+        EventManager.Broadcast(Events.StopSpawnEvent);
 
-        _player.IsFlying = false;
+        _player.StopFly();
     }
 
     public void ContinueGame()
     {
         EventManager.Broadcast(Events.StartMovingBackgroundEvent);
-        EventManager.Broadcast(Events.ContinueMovementEvent);
+        EventManager.Broadcast(Events.StartSpawnEvent);
 
-        _player.IsFlying = true;
+        _player.StartFly();
     }
 
     public void GameOver(int currentScore)
@@ -51,8 +57,6 @@ public class GameManager : MonoBehaviour
         _gameUI.gameObject.SetActive(false);
         _gameOverUI.gameObject.SetActive(true);
         _gameOverUI.ShowResult(currentScore);
-
-        _player.IsFlying = false;
     }
 
     public void RestartGame()
@@ -63,8 +67,7 @@ public class GameManager : MonoBehaviour
         _menuUI.gameObject.SetActive(true);
 
         _player.ResetPlayer();
-        _spawner.StopSpawn(Events.StopMovementEvent);
-        _bonusSpawner.StopSpawn(Events.StopMovementEvent);
+        spawners.ForEach(spawner => spawner.StopSpawn(Events.StopSpawnEvent));
 
         EventManager.Broadcast(Events.StartMovingBackgroundEvent);
         EventManager.Broadcast(Events.ReturnToPoolEvent);

@@ -3,7 +3,7 @@ using Zenject;
 
 public class SpawnerInstaller : MonoInstaller
 {
-    [SerializeField] private Spawner _spawner;
+    [SerializeField] private BarrierSpawner _spawner;
     [SerializeField] private BonusSpawner _bonusSpawner;
 
     public override void InstallBindings()
@@ -16,7 +16,7 @@ public class SpawnerInstaller : MonoInstaller
         _spawner.transform.position = position;
         _bonusSpawner.transform.position = position;
 
-        Container.Bind<Spawner>().FromInstance(_spawner).AsSingle();
+        Container.Bind<BarrierSpawner>().FromInstance(_spawner).AsSingle();
         Container.Bind<BonusSpawner>().FromInstance(_bonusSpawner).AsSingle();
     }
 }

@@ -11,7 +11,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip _hit;
     [SerializeField] private AudioClip _point;
 
-    private void Start()
+    private void Awake()
     {
         _source = GetComponent<AudioSource>();
     }

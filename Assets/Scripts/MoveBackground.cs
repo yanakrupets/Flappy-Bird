@@ -15,7 +15,7 @@ public class MoveBackground : MonoBehaviour
 	private void Awake()
 	{
 		EventManager.AddListener<StartMovingBackgroundEvent>(ContinueMovement);
-		EventManager.AddListener<StopMovementEvent>(StopMovement);
+		EventManager.AddListener<StopSpawnEvent>(StopMovement);
 	}
 
     void Update () 
@@ -34,7 +34,7 @@ public class MoveBackground : MonoBehaviour
 		}
 	}
 
-	private void StopMovement(StopMovementEvent evt) => _isMoving = false;
+	private void StopMovement(StopSpawnEvent evt) => _isMoving = false;
 
 	private void ContinueMovement(StartMovingBackgroundEvent evt) => _isMoving = true;
 }

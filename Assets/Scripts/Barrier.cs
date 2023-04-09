@@ -8,16 +8,16 @@ using Zenject;
 public class Barrier : MonoBehaviour
 {
     [SerializeField] private float _speed = 0f;
-    private float _removalEdge;
 
+    private float _removalEdge;
     private bool _isMoving;
 
     public static Action<GameObject> OnRemove;
 
     private void Awake()
     {
-        EventManager.AddListener<StopMovementEvent>(StopMovement);
-        EventManager.AddListener<ContinueMovementEvent>(ContinueMovement);
+        EventManager.AddListener<StopSpawnEvent>(StopMovement);
+        EventManager.AddListener<StartSpawnEvent>(ContinueMovement);
         EventManager.AddListener<ReturnToPoolEvent>(ReturnToPool);
     }
 
@@ -38,9 +38,9 @@ public class Barrier : MonoBehaviour
         }
     }
 
-    public void ReturnToPool(ReturnToPoolEvent evt) => OnRemove(gameObject);
+    private void ReturnToPool(ReturnToPoolEvent evt) => OnRemove(gameObject);
 
-    public void StopMovement(StopMovementEvent evt) => _isMoving = false;
+    private void StopMovement(StopSpawnEvent evt) => _isMoving = false;
 
-    public void ContinueMovement(ContinueMovementEvent evt) => _isMoving = true;
+    private void ContinueMovement(StartSpawnEvent evt) => _isMoving = true;
 }
